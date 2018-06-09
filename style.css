@@ -1,0 +1,139 @@
+#myVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%; 
+    min-height: 100%;
+}
+#chapter{
+    font-family: 'UnifrakturMaguntia', cursive;
+    text-align: center;
+}
+#keyword {
+    font-size: 40px;
+    color: white;
+    font-family: 'Iceland', cursive;
+
+}
+#gletters {
+    font-size: 40px;
+    color: white;
+    font-family: 'Iceland', cursive;
+    padding-bottom: 70px;
+}
+.output{
+    color: lightslategray;
+    font-family: 'Caesar Dressing', cursive;
+}
+.letter {
+    font-size: 50px;
+    padding: 20px;
+}
+h1 {
+    font-family: 'UnifrakturMaguntia', cursive;
+    text-align: center;
+    font-size: 70px;
+}
+
+h2 {
+    font-size: 40px;
+}
+
+h3 {
+    font-family: 'Metamorphous', cursive;
+}
+
+
+#header {
+    
+    left: 0;
+    top: 0;
+    width: 100%;
+    
+    background-color: black;
+    color: white;
+}
+#instruct {
+    font-size: 40px;
+    color:white;
+}
+#score {
+    color: white;
+}
+#correctSpan {
+    color: green;
+}
+#instruct {
+    background-color: black;
+    border-style: solid;
+    border-width: 2px;
+    border-color: white;
+
+}
+p {
+    font-family: 'Metamorphous', cursive;
+    font-size: 20px;
+}
+#first-box {
+    padding: 20px;
+}
+
+#second-box {
+    background-color:black;
+    border-style: solid;
+    border-width: 2px;
+    border-color: white;
+}
+
+.footer {
+    
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        background-color: black;
+        border-top-style: solid;
+        border-top-color: whitesmoke;
+        border-top-width: 7px;
+        z-index: 1;
+   
+}
+
+#gameImage {
+   z-index: 1;
+    height: 200px;
+}
+
+#journal {
+    background-image: url("images/leather.jpg");
+    padding-left: 20px; 
+}
+.journal {
+    font-family: 'Homemade Apple', cursive;
+    color: whitesmoke;
+}
+.leads {
+    opacity: 0;
+    font-family: 'Zeyada', cursive;
+    color: whitesmoke;
+    font-size: 25px;
+}
+#guessesSpan {
+    font-family: 'Metamorphous', cursive;
+}
+#endGameImg {
+    width: 150px;
+    
+    
+}
+#runeBlock {
+    display: inline-block;
+}
+.rune {
+    width: 45px;
+}
+#youLost {
+    color: whitesmoke;
+    font-size: 15px;
+}

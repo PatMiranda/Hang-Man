@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+     <link href="https://fonts.googleapis.com/css?family=Caesar+Dressing|Homemade+Apple|Iceland|Metamorphous|Nosifer|UnifrakturMaguntia|Zeyada" rel="stylesheet">
+    <title>Hangman</title>
+</head>
+<body>
+    
+        <video autoplay muted loop id="myVideo">
+                <source src="images/smoke.mp4" type="video/mp4">
+              </video>
+             
+    <div class="container">
+        <div class="row">
+            <div id ="header" class="col-md-12">
+                <h1>Eldritch Investigators </h1>
+                <h2 id="chapter">Chapter 1</h2>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row" id="first-box">  
+            <div id="instruct" class="col-md-3">
+    <p>Press the keys on the keyboard to enter the name of an Elder God. If it is the same name as the 
+    God the cultists are worshipping, the book will open. Be careful, incorrect inputs build an incantation
+    of destruction. If the book is lost, there will be no way to uncover the cultists plans. 
+    </p>
+            </div>
+            <div class="col-md-3 col-offset-1" id="journal">
+                <h2 class="journal">Journal</h2>
+                <button id="show" class="btn btn-lg btn-dark fa fa-eye"></button>
+                <button id="hide" class="btn btn-lg btn-dark fa fa-eye-slash"></button>
+                <ul class="leads">
+                    <li>Cthulu</li>
+                    <li>Dagon</li>
+                    <li>Azathoth</li>
+                    <li>Ngyr</li>
+                    <li>Yidhra</li>
+                    <li>Olkoth</li>
+                    <li>Darkness</li>
+                    <li>Cxaxukluth</li>
+                </ul>
+            </div>
+            <div id="runeBlock" class="col-md-1">
+                    <img class="rune" id="rune1" src="images/rune1.png" style="display: none">
+                    <img class="rune" id="rune2" src="images/rune2.jpg" style="display: none">
+                    <img class="rune" id="rune3" src="images/rune3.png" style="display: none">
+                    <img class="rune" id="rune4" src="images/rune4.png" style="display: none">
+                    <img class="rune" id="rune5" src="images/rune5.jpg" style="display: none">
+                    <img class="rune" id="rune6" src="images/rune6.jpg" style="display: none">
+                    <img class="rune" id="rune7" src="images/rune7.jpg" style="display: none">
+                    
+                </div>
+                <div class="col-md-2">
+                    <img id="endGameImg" src="images/book-burning.jpg" style="display: none">
+                    <p id="youLost" style="display: none">The book is engulfed in flames, burning your hands and destroying any chance of 
+                        pursuing this unknown death cult. Be more careful next time, Investigator.
+                    </p>
+                    <button onClick="resetGame()" id="resetButton" class="btn btn-dark btn-sm" style="display: none">Try Again?</button>
+                </div>
+        </div>
+        <div id="score" class="row">
+            <div class="col-sm-3">
+                <h3>Guesses Remaining:<span id="guessesSpan"></span></h3>
+             </div>
+             <div class="col-sm-3"> 
+                <h3>Tomes Unlocked:<span id="winsSpan"></span></h3>
+            </div>
+             <div class="col-sm-3"> 
+                <h3>Tomes Lost:<span id="lostSpan"></span></h3>
+            </div>
+        </div>
+        <div id="second-box" >
+        <div class="row" >
+            <div class="col-md-6 col-offset-3">
+             <h2 id="keyword">Key Word:<span class="output" id="wordbox"></span></h2>
+             
+            </div>
+        </div>    
+        <div class="row">
+            <div class="col-md-9">
+                    <h2 id="gletters">Guessed Letters:<span class="output" id="guessedLetters"></span></h2>
+            </div>
+            
+        </div>
+
+        
+           
+        
+        </div>
+       
+
+        <div class="footer">
+            <div class="row">
+                <div class="col-md-12">
+                        <audio id="myAudio" src="background.mp3" preload="auto">
+                        </audio>
+                        <audio id="fireAudio" src="images/01-183- Forest Fire.mp3" preload="auto">
+                        </audio>
+                        <audio id="flameAudio" src="images/01-181- Fire Ball Burst.mp3" preload="auto">
+                        </audio>
+                       
+                <!-- <audio controls id="player">
+                        <source src="background.mp3" type="audio/mpeg">
+                    </audio> -->
+                    <button onClick="togglePlay()" class="btn btn-lg btn-dark" title="Play/Pause Song"><span class="fa fa-music"></span></button> 
+                </div>
+            </div>
+        </div>
+    
+   </div> 
+    </body>
+
+    <script type="text/javascript">
+
+
+    //audio script
+var myAudio = document.getElementById("myAudio");
+var isPlaying = false;
+var fireAudio = document.getElementById("fireAudio");
+
+//for the background music
+function togglePlay() {
+  if (isPlaying) {
+    myAudio.pause()
+  } else {
+    myAudio.play();
+  }
+};
+myAudio.onplaying = function() {
+  isPlaying = true;
+};
+myAudio.onpause = function() {
+  isPlaying = false;
+};
+
+//for the endgame book fire
+function firePlay() {
+  if (isPlaying) {
+    fireAudio.pause()
+  } else {
+    fireAudio.play();
+  }
+};
+fireAudio.onplaying = function() {
+  isPlaying = true;
+};
+fireAudio.onpause = function() {
+  isPlaying = false;
+};
+
+//for the fireball audio every time an incorrect guess was input
+function flamePlay() {
+  if (isPlaying) {
+    flameAudio.pause()
+  } else {
+    flameAudio.play();
+  }
+};
+flameAudio.onplaying = function() {
+  isPlaying = true;
+};
+flameAudio.onpause = function() {
+  isPlaying = false;
+};
+
+//Button controls for the journal
+
+$("#show").on("click", function () {
+        $(".leads").animate({opacity: "1"})
+    })
+    $("#hide").on("click", function(){
+        $(".leads").animate({opacity:"0"})
+    })
+//Game Script
+    var words = [ "CTHULU", "DAGON", "AZATHOTH", "NGYR", "YIDHRA", "DARKNESS", "CXAXUKLUTH"];
+    var remainingGuesses = 8;
+    
+    var wordBox = [];
+    var guessedLetters = [];
+    var secondGuess = [];
+    var letterGuess = "";
+    var correctGuess = 0;
+    var wins = 0;  
+    var losses = 0;
+    
+    
+     function game () {
+        
+          var currentWord = words[Math.floor(Math.random() * words.length)]
+            console.log(currentWord);
+        
+       for (var i = 0; i < currentWord.length; i++){
+          wordBox.push("-");
+            };
+   document.getElementById("wordbox").textContent = wordBox.join(" ");
+    
+
+        document.onkeyup = function(event) {
+            
+            letterGuess = event.key.toUpperCase() ;
+                   console.log(letterGuess);
+
+            if (wordBox.indexOf(letterGuess) == -1 && guessedLetters.indexOf(letterGuess) == -1){
+                
+            
+           if (currentWord.indexOf(letterGuess) > -1){
+               for (var i = 0; i < currentWord.length; i++){
+                   if(currentWord[i] === letterGuess){
+                       wordBox[i] = letterGuess;
+                       correctGuess++;
+                       if (correctGuess == wordBox.length){
+                           wins++;
+                           document.getElementById("winsSpan").textContent = wins.toString();
+                       }
+                       console.log(correctGuess);
+                    
+                   }
+               }
+               document.getElementById("wordbox").textContent = wordBox.join(" ");
+           }
+           else {
+               guessedLetters.push(letterGuess);
+               remainingGuesses--;
+               displayRunes(); 
+               flamePlay();
+            
+               
+
+           }
+            }
+           
+           document.getElementById("guessesSpan").textContent = remainingGuesses.toString();
+                document.getElementById("guessedLetters").textContent = guessedLetters.join(" ");
+           
+        }
+        
+    };
+
+    
+//Builds the "HANGMAN", in my version, it is an Incantation of Destruction... I am a nerd. 
+    function displayRunes (){
+        if (remainingGuesses == 7){
+            document.getElementById("rune7").style.display =  "block";
+        }
+
+        if (remainingGuesses == 6){
+            document.getElementById("rune6").style.display =  "block";
+        }
+        if (remainingGuesses == 5){
+            document.getElementById("rune5").style.display =  "block";
+        }
+        if (remainingGuesses == 4){
+            document.getElementById("rune4").style.display =  "block";
+        }
+        if (remainingGuesses == 3){
+            document.getElementById("rune3").style.display =  "block";
+        }
+        if (remainingGuesses == 2){
+            document.getElementById("rune2").style.display =  "block";
+        }
+        if (remainingGuesses == 1){
+            document.getElementById("rune1").style.display =  "block";
+        }
+        if (remainingGuesses == 0){
+            document.getElementById("endGameImg").style.display =  "block";
+            document.getElementById("youLost").style.display =  "block";
+            losses++;
+            document.getElementById("lostSpan").textContent = losses.toString();
+            document.getElementById("resetButton").style.display ="block";
+            firePlay();
+        }
+    }
+  
+    function resetGame (){
+       var  remainingGuesses = 8;
+       var correctGuess = 0;
+       var wordBox = [];
+       var guessedLetters = [];
+       var currentWord = words[Math.floor(Math.random() * words.length)]
+            console.log(currentWord);
+        
+    }
+    
+           
+     game(); 
+     </script>
+</html>
