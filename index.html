@@ -15,7 +15,7 @@
 <body>
     
         <video autoplay muted loop id="myVideo">
-                <source src="images/smoke.mp4" type="video/mp4">
+                <source src="assets/smoke.mp4" type="video/mp4">
               </video>
              
     <div class="container">
@@ -26,6 +26,7 @@
             </div>
         </div>
     </div>
+    
     <div class="container">
         <div class="row" id="first-box">  
             <div id="instruct" class="col-md-3">
@@ -50,17 +51,17 @@
                 </ul>
             </div>
             <div id="runeBlock" class="col-md-1">
-                    <img class="rune" id="rune1" src="images/rune1.png" style="display: none">
-                    <img class="rune" id="rune2" src="images/rune2.jpg" style="display: none">
-                    <img class="rune" id="rune3" src="images/rune3.png" style="display: none">
-                    <img class="rune" id="rune4" src="images/rune4.png" style="display: none">
-                    <img class="rune" id="rune5" src="images/rune5.jpg" style="display: none">
-                    <img class="rune" id="rune6" src="images/rune6.jpg" style="display: none">
-                    <img class="rune" id="rune7" src="images/rune7.jpg" style="display: none">
+                    <img class="rune" id="rune1" src="assets/rune1.png" style="display: none">
+                    <img class="rune" id="rune2" src="assets/rune2.jpg" style="display: none">
+                    <img class="rune" id="rune3" src="assets/rune3.png" style="display: none">
+                    <img class="rune" id="rune4" src="assets/rune4.png" style="display: none">
+                    <img class="rune" id="rune5" src="assets/rune5.jpg" style="display: none">
+                    <img class="rune" id="rune6" src="assets/rune6.jpg" style="display: none">
+                    <img class="rune" id="rune7" src="assets/rune7.jpg" style="display: none">
                     
                 </div>
                 <div class="col-md-2">
-                    <img id="endGameImg" src="images/book-burning.jpg" style="display: none">
+                    <img id="endGameImg" src="assets/book-burning.jpg" style="display: none">
                     <p id="youLost" style="display: none">The book is engulfed in flames, burning your hands and destroying any chance of 
                         pursuing this unknown death cult. Be more careful next time, Investigator.
                     </p>
@@ -85,6 +86,18 @@
              
             </div>
         </div>    
+        <div class="container" id="winGame" style="display: none">
+            <div class="row">
+                <div class="col-lg-12" id="winGame">
+                    <p>The Cult of <span id="godName"></span> is responsible for the kidnappings of Martha Witt, 
+                    the children, and God knows how many other indecencies. Upon investigating the Tome, 
+                you realize that this is not over. This horrible display of murder and chaos was only the beginning. 
+                This deprived cult is planning on unleashing their God's wrath upon our world. Stop them, Investigator!</p>
+                <button id="continue" class="btn btn-dark btn-lg">Pursue the Investigation</button>
+                <button id="resetGame" onClick="resetGame()" class="btn btn-dark btn-lg">Unlock more Tomes</button>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-9">
                     <h2 id="gletters">Guessed Letters:<span class="output" id="guessedLetters"></span></h2>
@@ -101,11 +114,11 @@
         <div class="footer">
             <div class="row">
                 <div class="col-md-12">
-                        <audio id="myAudio" src="background.mp3" preload="auto">
+                        <audio id="myAudio" src="assets/background.mp3" preload="auto">
                         </audio>
-                        <audio id="fireAudio" src="images/01-183- Forest Fire.mp3" preload="auto">
+                        <audio id="fireAudio" src="assets/01-183- Forest Fire.mp3" preload="auto">
                         </audio>
-                        <audio id="flameAudio" src="images/01-181- Fire Ball Burst.mp3" preload="auto">
+                        <audio id="flameAudio" src="assets/01-181- Fire Ball Burst.mp3" preload="auto">
                         </audio>
                        
                 <!-- <audio controls id="player">
@@ -123,7 +136,10 @@
 
 
     //audio script
+
 var myAudio = document.getElementById("myAudio");
+var firePlaying = false;
+var flamePlaying = false;
 var isPlaying = false;
 var fireAudio = document.getElementById("fireAudio");
 
@@ -144,32 +160,32 @@ myAudio.onpause = function() {
 
 //for the endgame book fire
 function firePlay() {
-  if (isPlaying) {
+  if (firePlaying) {
     fireAudio.pause()
   } else {
     fireAudio.play();
   }
 };
 fireAudio.onplaying = function() {
-  isPlaying = true;
+  firePlaying = true;
 };
 fireAudio.onpause = function() {
-  isPlaying = false;
+  firePlaying = false;
 };
 
 //for the fireball audio every time an incorrect guess was input
 function flamePlay() {
-  if (isPlaying) {
+  if (flamePlaying) {
     flameAudio.pause()
   } else {
     flameAudio.play();
   }
 };
 flameAudio.onplaying = function() {
-  isPlaying = true;
+  flamePlaying = true;
 };
 flameAudio.onpause = function() {
-  isPlaying = false;
+  flamePlaying = false;
 };
 
 //Button controls for the journal
@@ -220,6 +236,8 @@ $("#show").on("click", function () {
                        if (correctGuess == wordBox.length){
                            wins++;
                            document.getElementById("winsSpan").textContent = wins.toString();
+                           document.getElementById("winGame").style.display = "block";
+                           document.getElementById("godName").textContent = currentWord.toString();
                        }
                        console.log(correctGuess);
                     
