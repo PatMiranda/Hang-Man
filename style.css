@@ -145,3 +145,7 @@ p {
     border-color: white;
     z-index: 1;
 }
+#additionalLosses {
+    color: whitesmoke;
+    font-size: 15px; 
+}

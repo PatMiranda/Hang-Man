@@ -39,6 +39,7 @@
                 <h2 class="journal">Journal</h2>
                 <button id="show" class="btn btn-lg btn-dark fa fa-eye"></button>
                 <button id="hide" class="btn btn-lg btn-dark fa fa-eye-slash"></button>
+                <h2 class="leads">Leads</h2>
                 <ul class="leads">
                     <li>Cthulu</li>
                     <li>Dagon</li>
@@ -65,6 +66,9 @@
                     <p id="youLost" style="display: none">The book is engulfed in flames, burning your hands and destroying any chance of 
                         pursuing this unknown death cult. Be more careful next time, Investigator.
                     </p>
+                    <p id="additionalLosses" style="display: none">The book is engulfed in flames, burning your hands. You learn nothing, gain nothing.
+                        Spend your efforts more wisely Investigator!
+                    </p>
                     <button onClick="resetGame()" id="resetButton" class="btn btn-dark btn-sm" style="display: none">Try Again?</button>
                 </div>
         </div>
@@ -86,6 +90,12 @@
              
             </div>
         </div>    
+        <div class="row">
+            <div class="col-sm-3">
+                <button id="researchButton" class="btn btn-dark btn-sm" onclick="resetGame()" style="display: none">Unlock more Tomes?</button>
+                 </div>
+        </div>
+           
         <div class="container" id="winGame" style="display: none">
             <div class="row">
                 <div class="col-lg-12" id="winGame">
@@ -199,7 +209,6 @@ $("#show").on("click", function () {
 //Game Script
     var words = [ "CTHULU", "DAGON", "AZATHOTH", "NGYR", "YIDHRA", "DARKNESS", "CXAXUKLUTH"];
     var remainingGuesses = 8;
-    
     var wordBox = [];
     var guessedLetters = [];
     var secondGuess = [];
@@ -264,31 +273,98 @@ $("#show").on("click", function () {
     };
 
     
-//Builds the "HANGMAN", in my version, it is an Incantation of Destruction... I am a nerd. 
+
+  
+    function resetGame (){
+        document.getElementById("rune7").style.display =  "none";
+        document.getElementById("rune6").style.display =  "none";
+        document.getElementById("rune5").style.display =  "none";
+        document.getElementById("rune4").style.display =  "none";
+        document.getElementById("rune3").style.display =  "none";
+        document.getElementById("rune2").style.display =  "none";
+        document.getElementById("rune1").style.display =  "none";
+        document.getElementById("endGameImg").style.display =  "none";
+        document.getElementById("youLost").style.display =  "none";
+        document.getElementById("resetButton").style.display ="none";
+        document.getElementById("additionalLosses").style.display = "none";
+     remainingGuesses = 8;
+        var wordBox = [];
+        var guessedLetters = [];
+        var letterGuess = "";
+        var correctGuess = 0;
+        var currentWord = words[Math.floor(Math.random() * words.length)]
+            console.log(currentWord);
+
+        for (var i = 0; i < currentWord.length; i++){
+          wordBox.push("-");
+            };
+   document.getElementById("wordbox").textContent = wordBox.join(" ");
+    
+
+        document.onkeyup = function(event) {
+            
+            letterGuess = event.key.toUpperCase() ;
+
+            if (wordBox.indexOf(letterGuess) == -1 && guessedLetters.indexOf(letterGuess) == -1){
+                
+            
+           if (currentWord.indexOf(letterGuess) > -1){
+               for (var i = 0; i < currentWord.length; i++){
+                   if(currentWord[i] === letterGuess){
+                       wordBox[i] = letterGuess;
+                       correctGuess++;
+                       if (correctGuess == wordBox.length){
+                           wins++;
+                           document.getElementById("winsSpan").textContent = wins.toString();
+                           document.getElementById("researchButton").style.display = "block";
+                       }
+                       console.log(correctGuess);
+                    
+                   }
+               }
+               document.getElementById("wordbox").textContent = wordBox.join(" ");
+           }
+           else {
+               guessedLetters.push(letterGuess);
+               remainingGuesses--;
+               displayRunes2(); 
+               flamePlay();
+              
+               
+
+           }
+            }
+            document.getElementById("guessesSpan").textContent = remainingGuesses.toString();
+                document.getElementById("guessedLetters").textContent = guessedLetters.join(" ");
+        }
+        
+    };
+        
+    //Builds the "HANGMAN", in my version, it is an Incantation of Destruction... I am a nerd. 
     function displayRunes (){
-        if (remainingGuesses == 7){
+        if (remainingGuesses === 7){
             document.getElementById("rune7").style.display =  "block";
         }
 
-        if (remainingGuesses == 6){
+       else if (remainingGuesses === 6){
             document.getElementById("rune6").style.display =  "block";
         }
-        if (remainingGuesses == 5){
+       else if (remainingGuesses === 5){
             document.getElementById("rune5").style.display =  "block";
         }
-        if (remainingGuesses == 4){
+       else if (remainingGuesses === 4){
             document.getElementById("rune4").style.display =  "block";
         }
-        if (remainingGuesses == 3){
+       else if (remainingGuesses === 3){
             document.getElementById("rune3").style.display =  "block";
         }
-        if (remainingGuesses == 2){
+       else if (remainingGuesses === 2){
             document.getElementById("rune2").style.display =  "block";
         }
-        if (remainingGuesses == 1){
+       else if (remainingGuesses === 1){
             document.getElementById("rune1").style.display =  "block";
         }
-        if (remainingGuesses == 0){
+       else if (remainingGuesses === 0){
             document.getElementById("endGameImg").style.display =  "block";
             document.getElementById("youLost").style.display =  "block";
             losses++;
@@ -297,15 +373,38 @@ $("#show").on("click", function () {
             firePlay();
         }
     }
-  
-    function resetGame (){
-       var  remainingGuesses = 8;
-       var correctGuess = 0;
-       var wordBox = [];
-       var guessedLetters = [];
-       var currentWord = words[Math.floor(Math.random() * words.length)]
-            console.log(currentWord);
-        
+
+    function displayRunes2 (){
+        if (remainingGuesses === 7){
+            document.getElementById("rune7").style.display =  "block";
+        }
+
+       else if (remainingGuesses === 6){
+            document.getElementById("rune6").style.display =  "block";
+        }
+       else if (remainingGuesses === 5){
+            document.getElementById("rune5").style.display =  "block";
+        }
+       else if (remainingGuesses === 4){
+            document.getElementById("rune4").style.display =  "block";
+        }
+       else if (remainingGuesses === 3){
+            document.getElementById("rune3").style.display =  "block";
+        }
+       else if (remainingGuesses === 2){
+            document.getElementById("rune2").style.display =  "block";
+        }
+       else if (remainingGuesses === 1){
+            document.getElementById("rune1").style.display =  "block";
+        }
+       else if (remainingGuesses === 0){
+            document.getElementById("endGameImg").style.display =  "block";
+            document.getElementById("additionalLosses").style.display =  "block";
+            losses++;
+            document.getElementById("lostSpan").textContent = losses.toString();
+            document.getElementById("resetButton").style.display ="block";
+            firePlay();
+        }
     }
     
            
